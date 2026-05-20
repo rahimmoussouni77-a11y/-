@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="السلام عليك يا صاحبي - أدهم شرقاوي (قس بن ساعدة) - تجربة قراءة فاخرة من العيار الثقيل">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>السلام عليك يا صاحبي | أدهم شرقاوي | المكتبة الذهبية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-deep: #050505;
+            --bg-darker: #0a0a0c;
+            --gold-primary: #d4af37;
+            --gold-secondary: #f3d572;
+            --gold-dark: #997a00;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --gold-glow-strong: rgba(212, 175, 55, 0.7);
+            --text-gold: #f5e6b0;
+            --text-light: #f0ebe0;
+            --text-dim: #b8b2a5;
+            --glass-bg: rgba(8, 8, 12, 0.75);
+            --glass-border: rgba(212, 175, 55, 0.35);
+            --card-shadow: 0 35px 60px rgba(0,0,0,0.5);
+            --transition-smooth: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body {
+            font-family: 'Cairo', 'Tajawal', 'Amiri', serif;
+            background: var(--bg-deep);
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* شاشة الترحيب */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 30% 20%, #0f0f12, #020202);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+        .splash-content {
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(145deg, #d4af37, #b8860b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 50px rgba(212,175,55,0.6);
+            animation: logoGlow 2s ease-in-out infinite;
+        }
+        .splash-logo span {
+            font-size: 4rem;
+        }
+        .splash-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5e6b0, #d4af37, #b8860b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* المحتوى الرئيسي - مخفي في البداية */
+        .main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-out;
+        }
+        .main-content.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* الخلفية الأسطورية */
+        .royal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(ellipse at 30% 20%, #0f0f12, #020202);
+            overflow: hidden;
+        }
+
+        .royal-bg::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 40px,
+                rgba(212, 175, 55, 0.02) 40px,
+                rgba(212, 175, 55, 0.02) 80px
+            );
+            animation: bgShift 60s linear infinite;
+        }
+
+        .royal-bg::after {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.06), transparent 55%),
+                        radial-gradient(circle at 85% 70%, rgba(212, 175, 55, 0.04), transparent 60%);
+            animation: auraPulse 12s ease-in-out infinite;
+        }
+
+        @keyframes bgShift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(5%, 5%) rotate(2deg); }
+        }
+
+        @keyframes auraPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* جزيئات ذهبية متطايرة */
+        .gold-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .gold-particles span {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, #d4af37, #ffd700);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle 15s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% { opacity: 0; transform: translateY(100vh) translateX(0); }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.5; }
+            100% { opacity: 0; transform: translateY(-20vh) translateX(50px); }
+        }
+
+        /* شريط التنقل الفاخر */
+        .nav-royal {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.88);
+            border-bottom: 2px solid var(--gold-primary);
+            padding: 0.8rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        /* اللوغو الفخم */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(145deg, #d4af37, #b8860b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(212,175,55,0.6), inset 0 1px 3px rgba(255,255,200,0.5);
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        .logo-icon span {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(212,175,55,0.4), inset 0 1px 2px rgba(255,255,200,0.3); }
+            50% { box-shadow: 0 0 25px rgba(212,175,55,0.8), inset 0 1px 4px rgba(255,255,200,0.6); }
+        }
+
+        .controls-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .gold-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition-smooth);
+            font-family: inherit;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+        }
+
+        .gold-btn:hover {
+            background: var(--gold-primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--gold-glow-strong);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* شريط التقدم */
+        .progress-royal {
+            position: fixed;
+            top: 74px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,0.08);
+            z-index: 1001;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #d4af37, #ffdf80, #d4af37);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px #ffd700;
+        }
+
+        /* منطقة القراءة */
+        .reader-royal {
+            margin-top: 110px;
+            padding: 1.5rem 2rem 5rem;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* بطاقة الصفحة الفاخرة */
+        .page-masterpiece {
+            background: linear-gradient(145deg, rgba(10, 10, 14, 0.92), rgba(5, 5, 8, 0.96));
+            backdrop-filter: blur(18px);
+            border-radius: 56px;
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            padding: 3rem 2.8rem;
+            box-shadow: 0 35px 55px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.15) inset;
+            transition: var(--transition-smooth);
+            animation: pageReveal 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes pageReveal {
+            from { opacity: 0; transform: translateY(35px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .chap-badge {
+            font-size: 0.7rem;
+            color: var(--gold-primary);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: inline-block;
+            border-right: 3px solid var(--gold-primary);
+            padding-right: 15px;
+            background: rgba(212,175,55,0.1);
+            padding: 5px 15px 5px 20px;
+            border-radius: 0 30px 30px 0;
+        }
+
+        .page-heading {
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffefb5, #d4af37, #c49a1a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 2rem;
+            border-right: 6px solid var(--gold-primary);
+            padding-right: 28px;
+            line-height: 1.3;
+            text-shadow: 0 2px 10px rgba(212,175,55,0.2);
+        }
+
+        .rich-text {
+            font-size: 1.2rem;
+            line-height: 1.95;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+
+        .rich-text p {
+            margin-bottom: 1.6rem;
+        }
+
+        .gold-callout {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.12), rgba(212, 175, 55, 0.04));
+            border-right: 5px solid var(--gold-primary);
+            padding: 1.8rem;
+            font-style: italic;
+            font-size: 1.2rem;
+            margin: 1.8rem 0;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            color: #ffefc0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gold-callout::before {
+            content: '"';
+            position: absolute;
+            right: 20px;
+            top: -10px;
+            font-size: 5rem;
+            opacity: 0.1;
+            font-family: serif;
+        }
+
+        /* بطاقات القواعد */
+        .rule-card-lux {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(0, 0, 0, 0.7));
+            border: 1px solid var(--gold-primary);
+            border-radius: 32px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rule-card-lux::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #d4af37, #ffd700, #d4af37);
+        }
+
+        .rule-card-lux:hover {
+            transform: translateX(-6px);
+            box-shadow: 0 10px 30px rgba(212,175,55,0.2);
+            border-color: #ffdf80;
+        }
+
+        .rule-number-lux {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold-primary);
+            margin-bottom: 0.3rem;
+            font-family: 'Amiri', serif;
+        }
+
+        .rule-title-lux {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-gold);
+        }
+
+        .rule-text-lux {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-dim);
+        }
+
+        /* أزرار التنقل */
+        .nav-arrows {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            gap: 25px;
+        }
+
+        .arrow-nav {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1.5px solid var(--gold-primary);
+            color: var(--gold-primary);
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 1rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .arrow-nav:hover {
+            background: var(--gold-primary);
+            color: #000;
+            transform: scale(1.03);
+            box-shadow: 0 0 30px gold;
+        }
+
+        /* القائمة الجانبية */
+        .toc-royal {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 380px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(28px);
+            border-left: 2px solid var(--gold-primary);
+            z-index: 1200;
+            transition: right 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+            box-shadow: -15px 0 50px rgba(0,0,0,0.8);
+        }
+
+        .toc-royal.open {
+            right: 0;
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem;
+            border-bottom: 2px solid var(--gold-primary);
+            padding-bottom: 0.8rem;
+        }
+
+        .toc-header h3 {
+            font-size: 1.8rem;
+            color: var(--gold-primary);
+        }
+
+        .close-toc {
+            background: none;
+            border: none;
+            color: var(--gold-primary);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .close-toc:hover {
+            transform: scale(1.1);
+            color: #ffd700;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            padding: 10px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.25s;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--gold-primary);
+            color: #000;
+            box-shadow: 0 0 15px gold;
+        }
+
+        .toc-items, .rules-list {
+            list-style: none;
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+
+        .toc-items li, .rule-list-item {
+            margin: 0.7rem 0;
+            cursor: pointer;
+            padding: 10px 16px;
+            border-radius: 30px;
+            transition: all 0.25s;
+            border-right: 2px solid transparent;
+            color: #ddd;
+        }
+
+        .toc-items li:hover, .rule-list-item:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-right-color: var(--gold-primary);
+            padding-right: 24px;
+            color: #ffefb5;
+            transform: translateX(-3px);
+        }
+
+        /* زر القائمة العائم */
+        .floating-menu {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(145deg, #d4af37, #b8860b);
+            color: black;
+            border: none;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 5px 25px rgba(212,175,55,0.7);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-menu:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 35px gold;
+        }
+
+        /* معلومات القراءة */
+        .reading-info {
+            margin-top: 1.5rem;
+            font-size: 0.7rem;
+            color: var(--gold-primary);
+            text-align: center;
+        }
+
+        /* التذييل */
+        .footer-info {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+        .footer-info a {
+            color: var(--gold-primary);
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .footer-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* استجابة للجوال */
+        @media (max-width: 768px) {
+            .reader-royal { padding: 1rem; margin-top: 100px; }
+            .page-masterpiece { padding: 1.5rem; }
+            .page-heading { font-size: 1.6rem; }
+            .rich-text { font-size: 1rem; line-height: 1.8; }
+            .nav-royal { padding: 0.6rem 1rem; }
+            .logo-icon { width: 38px; height: 38px; }
+            .toc-royal { width: 320px; }
+        }
+
+        @media (max-width: 480px) {
+            .controls-group { gap: 6px; }
+            .gold-btn { padding: 5px 10px; font-size: 0.7rem; }
+        }
+
+        /* تأثير التمرير */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-primary);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="royal-bg"></div>
+<div class="gold-particles" id="particles"></div>
+
+<!-- شاشة الترحيب -->
+<div class="splash-screen" id="splashScreen">
+    <div class="splash-content">
+        <div class="splash-logo">
+            <span>📚</span>
+        </div>
+        <div class="splash-title">المكتبة الذهبية</div>
+    </div>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div class="main-content" id="mainContent">
+    <div class="progress-royal"><div class="progress-fill" id="royalProgress"></div></div>
+
+    <nav class="nav-royal">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <img src="logo.jpg" alt="شعار الكتاب" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23d4af37\'/%3E%3Ctext x=\'50\' y=\'70\' text-anchor=\'middle\' fill=\'%23000\' font-size=\'50\'%3E📚%3C/text%3E%3C/svg%3E'">
+            </div>
+        </div>
+        <div class="controls-group">
+            <button class="gold-btn" id="fontIncBtn">📖 تكبير</button>
+            <button class="gold-btn" id="fontDecBtn">📘 تصغير</button>
+        </div>
+    </nav>
+
+    <button class="floating-menu" id="openMenuBtn">📖</button>
+    <div class="toc-royal" id="royalToc">
+        <div class="toc-header">
+            <h3>📚 خزانة الحكمة</h3>
+            <button class="close-toc" id="closeMenuBtn">✕</button>
+        </div>
+        <div class="tab-buttons">
+            <button class="tab-btn active" id="tabChaptersBtn">📖 الفصول</button>
+            <button class="tab-btn" id="tabRulesBtn">📜 القواعد</button>
+        </div>
+        <div id="chaptersPanel">
+            <ul class="toc-items" id="tocList"></ul>
+        </div>
+        <div id="rulesPanel" style="display:none;">
+            <ul class="rules-list" id="rulesList"></ul>
+        </div>
+        <div class="reading-info" id="timeInfo"></div>
+    </div>
+
+    <div class="reader-royal" id="readerContainer"></div>
+</div>
+
+<script>
+    // توليد جزيئات ذهبية
+    function createParticles() {
+        const container = document.getElementById("particles");
+        for(let i = 0; i < 50; i++) {
+            const span = document.createElement("span");
+            const size = Math.random() * 4 + 1;
+            span.style.width = size + "px";
+            span.style.height = size + "px";
+            span.style.left = Math.random() * 100 + "%";
+            span.style.animationDelay = Math.random() * 20 + "s";
+            span.style.animationDuration = Math.random() * 15 + 10 + "s";
+            container.appendChild(span);
+        }
+    }
+    createParticles();
+
+    // جميع فصول الكتاب (27 فصلاً)
+    const FULL_BOOK_CHAPTERS = [
+        { title: "افتتاحية: نأت بنا الدنيا", content: `<p>نأتْ بنا الدنيا، وصيَّرتنا كُلًا في بلد، لقد استكثرت عليَّ أن أتنفسَ هواءً مرَّ من قبل برئتيك... لو كان الأمر بيدي ما تركتهم يطرحونك أرضاً، فكل أرضٍ أنتَ لستَ فيها أنا فيها غريب!</p><div class='gold-callout'>ولو كان الأمر بيدي حين القوك في جُب السَّفر، لكنت سبقتُ السيارة إليك، وألقيتُ دلوي وانتشلتُك، كل الدنيا ثمنٌ بخسٌ لك يا صاحبي!</div><p>كنت سأنتشلك، وأخذك إلى صدري... الغربة سجن يا صاحبي، والله سجن! يا صاحبي، صدقني حين أخبرك أنه يكفي أن يرحلَ شخصٌ واحد عنك، حتى تستوحش من نفسك. والسلام لقلبك</p>` },
+        { title: "ما أجمل شعور في الدنيا", content: `<p>تسألني: ما أجمل شعور في الدنيا؟
+فأقول لك: أن تشعر أنك لا تهون!<br>
+أن تشعر أنك بمأمن ولو أخطأت،<br>
+وأنك مفهوم ولو خانتك مفرداتك،<br>
+وأنك لا تستبدل ولو كنت في مزاج سيء،<br>
+وأنك لا تُغادر ولو شعرت أنت برغبة في أن تغادر نفسك!<br>
+
+يا صاحبي:<br>
+لا شيء أجمل من أن تعرف أن خاطرك سيُشترى على الدوام،<br>
+وأن دمعتك ستُمسح مهما كان الطرف،<br>
+وأن يدك لن تُترك مهما بدا الوضع شائكاً!<br>
+
+يا صاحبي:<br>
+لا شيء أجمل من أن تعثر على الشخص الذي يقول لك: أنت عندي أولاً!<br>
+تأتي قبل الجميع، وقبل نفسي أيضاً،<br>
+ثم تجده لا يقول فحسب، وإنما يتصرف على هذا الأساس أيضاً!<br>
+يضع راحتك قبل راحته، وسعادتك قبل سعادته،<br>
+ولو علم أن أمراً فيه سعادتك وحزنه، لاختار أن تسعد ولو كان سيحزن!<br>
+
+يا صاحبي،<br>
+لا تحسبني أبالغ:<br>
+هؤلاء نادرون ولكنهم موجودون!<br>
+لا تحسبني أحدثك عن مستحيلات العرب الثلاثة:<br>
+الغول والعنقاء والخل الوفي.<br>
+فإن لم تعثر على هذا الشخص،<br>
+فحاول أن تكونه أنت!<br>
+
+والسلام لقلبك..</p>` },
+        { title: "لا سبيل لإرضاء الناس", content: `<p>سُئل الإمام أحمد بن حنبل:
+كيف السبيل إلى السلامة من الناس؟<br>
+فأجاب: تعطيعهم ولا تأخذ منهم، ويؤذونك ولا تؤذهم، وتقضي مصالحهم ولا تكلفهم بقضاء مصالحك.<br>
+فقيل له: إنها صعبة يا إمام؟<br>
+قال: وليتك تسلم!<br>
+
+أسوأ ما في الأمر يا صاحبي أننا لم نعد نبحث عن الناس عن القتيعة، وإنما عن السلامة!<br>
+أن يؤدوا إليك أبسط حقوقك؛ يعني أن يدعوك وشأنك!<br>
+ولكنك تكتشف أن هذا الأمر مستحيل!<br>
+إنهم يعيشون في حياتك أكثر مما يعيشون في حياتهم، وينسون أن أنست مكان لأنوفهم هي في وجوههم كما خلقها الله، وليس في حياتنا كما يريدون هم!<br>
+
+وإنك والله أحياناً تريد أن تعرف ما الذي يسعدهم لتفعله وتفهم نفسك.<br>
+ولكنك يا صاحبي تفشل!<br>
+إذا ذهبت إلى المساجد قالوا متشدد، وإذا ذهبت إلى المقاهي قالوا متحلل!<br>
+إذا استشرت زوجتك قالوا محكوم وأرنب، وإذا لم تستشرها قالوا مستبد!<br>
+إذا سمعت كلام زوجك قالوا ضعيفة الشخصية، وإذا لم تسمعيها قالوا متمرجلة!<br>
+إذا جلست بين كتبك قالوا معقد، وإذا شاهدت كرة القدم قالوا تافه!<br>
+إذا عملت قالوا أضاعت بيتها، وإذا لم تعملي قالوا يا خسارة الشهادات!<br>
+
+لا الكثير يعجب الناس ولا القلّ.<br>
+ومن لم يجدوا فيه عيباً، اخترعوا له واحداً وعيروه به!<br>
+ألم تسمع ما قال قوم لوط ﴿أَخْرِجُوا آلَ لُوطٍ مِّن قَرْيَتِكُمْ ۖ إِنَّهُمْ أُنَاسٌ يَتَطَهَّرُونَ﴾<br>
+عندما لم يجدوا لهم خطيئة عيروبهم بطهارتهم!<br>
+وما زلت أنت تسأل كيف السبيل إلى إرضاء الناس؟!<br>
+لا سبيل يا صاحبي، لا سبيل!<br>
+
+والسلام لقلبك.</p><div class='gold-callout'>لا سبيل لإرضاء الناس</div>` },
+        { title: "الحرية عبودية لله", content: `<p>يقول زوربا:بعض الناس أحرار فعلاً،
+وكثير منهم يظنون أنهم أحرار!<br>
+لمجرد اتساع الطوق قليلاً حول رقابهم!<br>
+صدقني، إذا أخبرتك أن الإنسان يكتسب حرية بمقدار ما يكون عبداً لله!<br>
+وأنه كلما ترقى في مرتبة العبودية لله سبحانه، كلما ارتقَت روحه أكثر في سُلَّم الحرية!<br>
+والعكس صحيح، كلما ابتعد الإنسان عن الله، فإنه صار عبداً لشيء آخر!<br>
+
+ليس بالضرورة أن تسجد لشيء حتى تكون عبداً له،<br>
+يكفي أن تكون أسيره لتكون عبده!<br>
+المنصب قد يُصبح معبوداً للمرء،<br>
+والمال قد يُصبح إلهاً وإن لم يسجد له!<br>
+العادات والتقاليد هي الأخرى بعدت أن يجعلها الناس آلهة!<br>
+
+يا صاحبي،<br>
+أكثر الناس حرية هم الأنبياء.<br>
+
+ذلك أنهم كانوا أكثر الناس عبودية لله!<br>
+أما نحن،<br>
+فكلما اقتربنا من مقام الأنبياء كلما تحررنا!<br>
+
+حين أتأمل سيرة بلال بن رباح أعرف أنه ذاق طعم الحرية قبل أن يشتريه أبو بكر ويُعتقه!<br>
+في اللحظة التي آمن فيها بلال، حُلَّ روحه من قيد العبودية وصار حراً!<br>
+وحين طرحه أمية بن خلف على رمال مكة الملتهبة، وبدأ بجلده ليرجع عن دينه، وهو يقول له ملء قلبه: أحدٌ أحد!<br>
+فهذا يعني أن أمية لم يكن يملك إلا جسد بلال، أما روحه فكانت ملكه.<br>
+وما الحرية إلا أن يملك المرء روحه!<br>
+أبو بكر لم يفعل أكثر من إعطاء بلال صك إعتاق جسده من العبودية،<br>
+أما الروح فقد حررها بلال بإيمانه قبل هذا بكثير!<br>
+
+والسلام لقلبك..</p>` },
+        { title: "العطاء والحرمان", content: `<p>كثر الناس عطاءً لشيء هم الذين حُرموا منه،
+إنهم يُعطون ببدع لأنهم يعرفون أكثر من غيرهم مرارة الحرمان!<br>
+أو لعل الذي يُعطيك أراد أن يُعوّض نفسه ما فقد،<br>
+ولعل الذي أحبك بجنون أراد أن يقول لك:<br>
+لقد تمنيتُ أن يُحبني أحدٌ مثلما أحببتك!<br>
+
+يا صاحبي،<br>
+ليس كل من واساك خالياً من الحُزن،<br>
+لعله عرف جيداً معنى أن يحتاج المرء ولا يجد!<br>
+ولا كل من أعطاك ثريّ،<br>
+لعله عرف جيداً معنى أن يحتاج المرء ولا يجد!<br>
+ولا كل من ربت على كتفك ليس له هَمّ،<br>
+لعله أراد أن يدعو بطريقة أخرى، فيقول صامتاً وهو يُطبطب عليك:<br>
+ها أنا أربتُ على أكتاف الناس فاربت على كتفي يا الله!<br>
+
+هذا الحياة قاسية يا صاحبي،<br>
+وكل إنسان يخوض معركة لا يدري بها أحد.<br>
+
+خلف الضحكات المدوية جروح غائرة،<br>
+ووراء صور النعمة حرمان قاتل،<br>
+حتى الكتابات عن الحُب هي في أحيان كثيرة شوق لحبيب مُنتظر.<br>
+يحدثُ أن يكتب الناس عما يفقدونه أكثر مما يجدونه،<br>
+فسُرَّ هَيِّناً، وإياك أن لا ترى من الناس إلا الذي ترى!<br>
+
+والسلام لقلبك.</p>` },
+        { title: "هدايا الله على طبق ابتلاء", content: `<p>يُرسل الله تعالى لنا الهدايا بطريقة لا نفهمها،
+هذا لأن فكرنا قاصر، ونظرتنا محدودة،<br>
+تأتينا المنحة على شكل محنة،<br>
+والعطاء في هيئة منع،<br>
+والجبر في هيئة كسر.<br>
+ولكن متى استقام لك الفهم علمت أن الله أرحم بك منك،<br>
+وأن رب الخير لا يأتي إلا بخير!<br>
+
+قال عبد الله بن عباس لتلميذه عطاء بن أبي رباح:<br>
+ألا أُريك امرأة من أهل الجنّة؟!<br>
+فقال: بلى!<br>
+قال: هذه المرأة أتت النبي ﷺ فقالت: يا رسول الله، إني أُصرع، وإني أتكشف، فادعُ الله لي!<br>
+فقال النبي ﷺ: إن شئتِ صبرتِ ولكِ الجنّة، وإن شئتِ دعوتُ الله أن يُعافيكِ!<br>
+فقالت: بل أصبر، ولكني أتكشف، فادعُ الله لي أن لا أتكشف!<br>
+فدعا لها ﷺ.<br>
+
+المرض إحدى هدايا الله يا صاحبي!<br>
+
+وإنه يبتليك به ليغفر لك ذنوباً، لم تكن لتبلغ غفرانها بطاعتك،<br>
+ويبتليك به ليرقق قلبك، فلا شيء أنفع للقلب من لحظة ضعف، تُريه الدنيا على حقيقتها!<br>
+ويبتليك به ليُقربك، فُرُبَّ منزلة في الجنّة خُلقت لها، وعباداتك أقل من أن تبلغها، فيُصيبك ليرفعك، ويبتليك به لأنه رآك تبتعد عنه، فأراد أن يُعيدك إليه.<br>
+تخيّل روعة المشهد، أن يغاز الله على قلبك!<br>
+
+والسلام لقلبك.!</p>` },
+        { title: "دار امتحان ورضا", content: `<p>إني أعيذك أن تستطيل البلاء فتتسخط،
+<br>أو أن تستبعد الفرج فتيأس،
+فتكون كالذين يعبدون الله على حرف،<br>
+إذا رأوا من الله ما يُحبون رضوا،<br>
+وإن رأوا ما يكرهون سخطوا!<br>
+
+يا صاحبي كل شيء يجري بقدر الله،<br>
+وبتوقيت معلوم لا تدرك حكمته،<br>
+لو استخرج البشر مابينهما قبل أن يبلغا أشدهما،<br>
+لضاع المال وما انتفعا به!<br>
+في كل تأخيره خيرة نحن لا نعلمها!<br>
+
+هذه الدنيا دار امتحان يا صاحبي،<br>
+والله ناظر إلى قلبك،<br>
+فإذا نزل بك ما تكره،<br>
+أو تأخر عنك ما تُحب،<br>
+فلا يكن في قلبك إلا الرضا،<br>
+فلا شيء أبغض إلى الله من أن يرى سخطاً من عبده على قدره!<br>
+
+أحياناً تتأخر الأمنيات يا صاحبي،<br>
+لأنك لم تنضج بعد لتعاطف عليها،<br>
+وتتأخر لأن تسليمها في قلبك لم يكتمل بعد،<br>
+وتتأخر بذنب أنت مقيم عليه، فيريد الله منك أن تعطيه أولاً ليعطيك ثانياً!<br>
+وتتأخر لأنك لم تأخذ بما يكفي من السبب،<br>
+وقد لا تأتي أبداً، لأن الخير هي أن لا تأتي،<br>
+فأحسن الظن بالله!<br>
+
+والسلام لقلبك..</p>` },
+        { title: "قصة البخيل والوفاء", content: `<p>كانت جدتي رحمها الله تمسح على رأسي حتى أنام، وكانت كل ليلة تروي لي حكاية ماتعة.
+فحدثتني ذات ليلة عن رجل قصد صديقاً له ليستدين منه، فاعتذر منه صديقه لأنه في ضيق أيضاً!<br>
+ولكنه أرشده إلى رجل آخر وقال له: اذهب إليه، فستجد ضالتك عنده!<br>
+
+ذهب الصديق إلى بيت الرجل ليستدين منه، فوجده يداوي شاة مريضة، فقال في نفسه: يا له من بخيل، على كثرة غنمه، لم يُفرّط في شاة مريضة، فكيف سيعطيني؟!<br>
+فعاد إلى صاحبه وأخبره بالأمر، فقال له صاحبه: عُد إليه فإنه لن يَرُدَّك!<br>
+فعاد إليه مجدداً، فسمعه يأمر أولاده أن يلتقطوا كل حبة قمح تقع منهم في الطريق أثناء ذهابهم إلى الطاحونة!<br>
+فقال في نفسه: إن رجلاً لا يُفرّط في حبات قمح لهو رجل بخيل ولن يعطيني!<br>
+فعاد إلى صديقه مرّةً أخرى، وحدثه بما سمع، ولكن الصديق طلب منه أن يرجع إلى الرجل، ويسأله فإنه لا يردّ سائلاً!<br>
+فعاد إليه في المرة الثالثة، فسمعه يطلب من بناته أن يخفضوا ضوء المصباح كي يحافظوا على الزيت فيه أطول فترة ممكنة!<br>
+
+وبينما هو يحدث نفسه ويقول: والله ما يزداد هذا الرجل في عيني إلا بخلاً،<br>
+إذ فتح الرجل باب بيته فوجده ماثلاً أمامه،<br>
+فسأله: ما الذي أتى بك؟<br>
+فقال له: سأصدقك القول فإني لا أكذب، أنا رجل نزلت بي حاجة، فقصدت صديقي، فإذا هو يشكو مما منه أشكو، فأرشدني إليك لتعينني!<br>
+وهذه ثالث مرة آتي إليك، في الأول رأيتك تداوي شاة مريضة، فقلتُ إنك تفعل هذا رغم كثرة غنمك، فهذا يدل على أنك بخيل!<br>
+وفي الثانية سمعتك توصي أولادك بالتقاط حبات القمح التي تسقط في الطريق إلى الطاحونة، فقلتُ هذه حالك والقمح لديك كثير، إنك حتماً بخيل!<br>
+وها أنت توصي بناتك أن يخفضوا ضوء المصباح ليوفروا زيته، فازددتُ يقيناً أنك بخيل!<br>
+
+ابتسم الرجل وقال لضيفه: أما الشاة فكانت قوية، وقد شربنا لبنها دهراً، فأين الوفاء إذ نتركها حين مرضت!<br>
+وأما القمح فأوصيت أولادي أن يجمعوا ما يسقط منه ليتعلموا احترام النعمة، ولأن الإنسان لا يعرف في أي طعامه تكون البركة!<br>
+وأما وصيتي لبناتي بخفض ضوء المصباح حفاظاً على الزيت، فإني أعلمهنّ الحرص والتدبير، وأنا رجل ميسور، وهُنّ مغادرات عما قليل إلى بيوت أزواجهنّ وقد يكون أحدهم فقيراً، فأردتُ أن أعدهنّ للحياة!<br>
+
+اعتذر الرجل من صاحب البيت على سوء ظنه، فقال له: لا عليك، والآن سلني حاجتك، فسأله حاجته، فأعطاه، ومضى في سبيله!<br>
+
+يا صاحبي،<br>
+تعلّمتُ باكراً من هذه القصة أن بعض الظّن لا يُدرك بسهولة، وأن لا أحكم على كل شيء من بعيد، وأن بعض الناس ينظرون أبعد بكثير مما ينظر بقية الناس!<br>
+تخيّل هذا الوفاء يا صاحبي، إنه لم يُفرّط بشاة كان له معها ماضٍ جميل! أفترى أن مثل هذا يُفرّط بالناس؟!<br>
+
+يا صاحبي،<br>
+إن الأمور الصغيرة تخبرك عن الأمور الكبيرة، أشياء بسيطة، تفاصيل قد لا تحسبها مهمة، ولكنك لو تأملت فيها جيداً، لو نظرت إليها بعين الفراسة، لوفرتَ على نفسك عناد معرفة الناس عن قرب!<br>
+
+والسلام لقلبك.</p>` },
+        { title: "عام الحزن وفقد الأحبة", content: `<p>لا تحسبنَّ الفراق هيناً،
+فلو كان كذلك ما سُمي العام الذي ماتت به خديجة عام الحُزن.<br>
+لا يطيق المرء فقد أحبابه ولو كان نبياً!<br>
+ثم إنه لم يكن حزن عام وانقضى،<br>
+بقي النبي ﷺ يذكرها حتى آخر عمره،<br>
+البعض سيبقون ينقصونك إلى الأبد!<br>
+
+نحن من لحم ودم يا صاحبي،<br>
+«اللهم لا تؤاخذني فيما لا أملك»<br>
+قالها النبي ﷺ قاصداً قلبه،<br>
+فتمر بمن هو أهل للعزاء!<br>
+
+وحيد أنت هذه الليلة يا صاحبي،<br>
+وحيد كبيت مهجور غادره قاطنوه،<br>
+كمحطة قطار قديمة،<br>
+كشجرة في رأس جبل لا يجلس تحتها أحد!<br>
+تتوضأ، وتُصلّي ركعتين، وتضع يدك على صدرك،<br>
+وتقول: قلبي يا الله!<br>
+
+فلا يخطر على بالك إلا قول ربك ﴿فَلَا تَخَفْ﴾<br>
+فتترك كل شيء بيد الله، وأنت تعلم أن ما أخذه منك فحكمة،<br>
+وأنه أرحم بك منك،<br>
+وأن كل أقدار الله خير ولو أوجعتك!<br>
+
+<br>تحامل على نفسك يا صاحبي وأثبت،
+أنت لا تملك رفاهية الانحناء!<br>
+فلعلك ثباتُ لغيرك وأنت لا تدري،<br>
+ربما أراد كثيرون أن ينحنوا،<br>
+ولكنهم لما رأوك ثابتاً ثبتوا!<br>
+تذكر أولئك الذين يرون فيك كتفاً وسنداً،<br>
+والذين ينظرون إليك بعين الإجلال،<br>
+والذين حملوك أمانة أرواحهم في أقدس طريق في هذه الحياة،<br>
+تذكر كل هذا يهن الأمر عليك،<br>
+وإن كان والله لا يهون!<br>
+
+والسلام لقلبك.!</p>` },
+        { title: "تقدير الله خير وإن أوجع", content: `<p>هون عليك، فإن الأمور تجري بتقدير الله،
+وكل أقدار الله خير وإن أوجعتك!<br>
+تسأل الله شيئاً بإلحاح فلا يعطيك إياه فتحزن،<br>
+ولا تدري أنك كالطفل الصغير الذي يبكي إذا حُرم الدواء<br>
+الملوث،<br>
+يريدها فتمنعه أمه، لأنها تعلم أنه يريد ما فيه هلاكه!<br>
+والله المثل الأعلى، وهي منع عطاء!<br>
+وتفقد شيئاً عزيزاً فتحزن، ولا تدري أن الله لا يأخذ إلا ليعطي،<br>
+عندما قتل الخضر الغلام،<br>
+بدا الأمر أول وهلة جريمة نكراء،<br>
+وكذلك حسبها موسى عليه السلام،<br>
+ولا شك أن قلب أبويه انفطرا لفقده،<br>
+ثم كُشف العيب،<br>
+وتبيّن أن رحمة الرحمة كانت في قتله.<br>
+يأخذ الله سبحانه من دنياك، ليحفظ لك دينك!<br>
+
+يا صاحبي،<br>
+إن الله يُدبّر الأمور بحكمة ورحمة لا تخطر على بالنا،<br>
+لأننا قاصرو النظر، ومحدودو التفكير، ولا نرى من المشهد إلا<br>
+بقعة يسيرة. فأما الله فهو كل شيء!<br>
+ولو كنت مع المساكين حين نُقبت سفينتهم،<br>
+لربما قلت: ألا يكفي الفقر حتى نُصاب في مصدر رزقنا؟!<br>
+ولكنك لن تلبث طويلاً حتى ترى أسطول الملك الظالم يسلب<br>
+الناس سفنهم.<br>
+فتدرك عندها رحمة الله.<br>
+وأن ثقبها في السفينة أرحم من فقدها.<br>
+سبحان من يبتلي بالصغيرة ليحمي من الكبيرة!<br>
+
+يا صاحبي إذا ما تقلق الأمر بالله فتأدب،<br>
+أنسيت من كان يسوق إليك رزقك وأنت جنين في بطن أمك؟!<br>
+أنسيت من رفق قلبها عليك وضمها،<br>
+فكانت تقوم لأجلك في الليل دون تأفف كأنها جارية تخدم ملكها؟!<br>
+أنسيت أباك كيف كان يقتطع لك رغيفاً من صخر الحياة لتكبر<br>
+وتنمو ويشتد عودك؟!<br>
+أما سألت من الذي جعلك طعمةً في قلبه، فكان على استعداد أن<br>
+يقتطع من لحمه ليطعمك.<br>
+إنه الله!<br>
+الغنيّ ولكنه لا يزهد فيك،<br>
+والقويّ الذي لا يحتاجك ولكنه يُناديك،<br>
+انسيت كل هذا، ثم إذا أصابك من قدره ما لا تُحب بدأت تتذمر<br>
+وتنافح!<br>
+
+السلام عليك يا صاحبي<br>
+انتظر دورة الأيام، ستنكشف لك حُجب الغيب، وستعرف أنه ما<br>
+أخذ منك إلا ليعطيك، وما أصابك إلا ليرفعك، وما صرفك عن أمر<br>
+إلا لآخر هو خير لك منه!<br>
+
+والسلام لقلبك..</p><div class='gold-callout'>ثقب في السفينة أرحم من فقدها</div>` },
+        { title: "العثور على الشخص المناسب", content: `<p>أعرف كم هو لذيذ أن تجد نهاية المطاف شخصاً على مقاس قلبك تماماً،
+شخصاً يكون صديقك عندما تحتاج إلى صديق،<br>
+وكتفك عندما تحتاج للاستناد،<br>
+وعكازاً عندما تحتاج للاتكاء،<br>
+شخص تشعر معه بالأمان الذي لم تذقه من قبل،<br>
+يا صديقي، نحن لا نعرف قيمة ما كنا نفتقده إلا حين نعثر عليه!<br>
+شخص لا تشك للحظة أنه مكافأة نهاية العمر،<br>
+وتعويض عن كل ما قاسيته قبله،<br>
+بعضهم يأتون رائعين كأنهم رسالة اعتذار من الحياة عن كل ما فعلته سابقاً بك!<br>
+
+ولكن بالمقابل يا صاحبي أعرف كم هو مؤلم أن لا يكون هذا الشخص لك،<br>
+وأن تمشي إليه بكل خلية في جسدك،<br>
+وبكل نبضة في قلبك،<br>
+وبكل ذرة هواء في رئتيك،<br>
+ثم تكتشف أنك لا تستطيع الوصول لأن ثمة من سبقك إليه! وتعرف أن الذي حصلت أخيراً يبقى أهون مهما حاول أن يتقدم؛ وأنه أول من يُستغنى عنه،<br>
+مؤلم جداً أن يكون لك مكان في قلب أحدهم، ولكن ليس لك مكان في حياته!<br>
+
+يا صاحبي،<br>
+إن من أشد أنواع الابتلاء شخص يعيش في داخلك وهو ليس لك!<br>
+وأنت عالق في المنتصف، لا تستطيع أن تستمر، ولا تستطيع أن تتوقف!<br>
+تتمسك به أحياناً بكل ما فيك، كأنك غريقٌ مدّت إليه يدٌ وهو في الرمق الأخير،<br>
+وتقرر أن تفلت يدك أحياناً، لأنك تعرف أن الذين عليه انتشالهم يأتون قبلك!<br>
+هلا أنت بالممسك ولا بالمفلت،<br>
+عالق في المنتصف،<br>
+تخشى على نفسك من الاستمرار معه،<br>
+وتخشى على نفسك أكثر من الاستمرار بدونه!<br>
+
+يا صاحبي،<br>
+تمر بك لحظات تعرف أنه أقرب إليك من جلدك،<br>
+وتمر لحظات أخرى تشعر أنك في كوكب،<br>
+وهو على كوكب آخر لكثرة ما بينكما من عباد وبلاد! تعرف تماماً أن لا شخص يستطيع إسعادك كما يفعل،<br>
+ولا شخص يمكنه أن يُؤذيك كما يفعل!<br>
+اللحظة معه جنة، وبدونه جحيم!<br>
+ولكن الجنة لا تُفتح أبوابها دائماً،<br>
+وعندما تُغلق بابها في وجهك فليس إلا النار بانتظارك،<br>
+ولتذوق حلاوة هذه، عليك أن تذوق مرارة تلك!<br>
+وكلما تخطيت حاجزةً للوصول إليه، نبتَ لك ألف حاجز جديد!<br>
+
+مؤلم يا صاحبي أن يكون العمر سباق حواجز،<br>
+عليك أن تركض إلى خط نهاية،<br>
+كلما أوشكتَ على الوصول إليه،<br>
+اكتشفتَ أنه خط وهمي وأن الخط الحقيقي بعيدٌ، بعيدٌ كثيراً!<br>
+توضأ، وصلِّ ركعتين يا صاحبي، وضع يدك على قلبك، وقل:<br>
+«فاللهم هذا القلب بيدك،<br>
+لا تتركه هائماً لا قرار ولا إلى استقرار،<br>
+بصّره بالعلامات، وفهمه الإشارات،<br>
+ودُلّه فأنت ربُّ التائهين وهو تائه!»<br>
+<br>
+والسلام لقلبك..</p>` },
+        { title: "الحياة ليست سباقاً", content: `<p>تسألني: ماذا ينقصني لأنافس الآخرين؟
+فأقول لك: ومن قال إنه عليك أن تنافس الآخرين؟!<br>
+الحياة رحلة وليست سباقاً يا فتى، فاستمتع بها ولا تحوّلها إلى معركة!<br>
+المضمار الوحيد الذي يستحق أن تنافس فيه هو الطريق إلى الجنة!<br>
+ما عدا ذلك فمعارك خاسرة، وسباق إلى غير وجهة، السلحفاة والأرنب كلاهما أحمق،<br>
+فأي لذة في أن يفوز الأرنب بسباق ضد أبطأ المخلوقات على الأرض؟!<br>
+ولم على السلحفاة أن تخوض سباقاً أملها الوحيد يكسبه هو أن ينام الأرنب؟!<br>
+
+طهّر قلبك يا صاحبي،<br>
+وافرح بنجاح غيرك كأنه نجاحك،<br>
+وصفّق للفائزين كأنك تصفّق لنفسك،<br>
+واسعد بصفقة الناجح كأنها صفقتك،<br>
+وبوطفة جارك كأنها وظيفتك،<br>
+انظر إلى ما في أيدي الناس بسهم مسموم يُصيبك في قلبك قبل أن يُصيب الناس!<br>
+يا صاحبي،<br>
+إن كثيراً مما تسميه منافسة ما هو إلا حسد مقنّع،<br>
+ولكن أسميناه منافسة لنقنع أنفسنا أنها معركة تستحق أن نخوضها!<br>
+وتذكّر جيداً، أن الحسد هو أول ذنب عُصي الله سبحانه وتعالى به في السماء،<br>
+حيث رفض إبليس السجود لآدم، وما معه من ذريعة إلا: أنا خير منه!<br>
+والحسد أول ذنب عُصي الله تعالى به في الأرض،<br>
+حيث قتل قابيل أخاه هابيل لأجل امرأة كانت أجمل من امرأته!<br>
+فلا يكن فيك شيء من إبليس وقابيل، ثم تقول لي أنا أخوض منافسة!<br>
+لا يا صاحبي أنت تحترق من الداخل لأن خيراً أصاب غيرك ولم يُصبك!<br>
+
+اعتنِ بقلبك يا صاحبي،<br>
+نظفه جيداً، طهره بالذكر،<br>
+سُمَّ الله على كل جميل تقع عليه عيناك،<br>
+وقل ما شاء الله على كل رزق ليس لك،<br>
+وارضَ بما قسم الله لك،<br>
+فلن تنال سواء ولو كانت حياتك كلها سباقاً،<br>
+
+والسلام لقلبك..</p>` },
+        { title: "فراق يعقوب ويوسف", content: `<p>عندما كنتُ صغيراً أضعتُ كرتي الحمراء، وبحثت عنها ولكن دون جدوى.
+فقالت لي جدتي رحمها الله قُل:<br>
+"اللهم جامع الناس ليوم لا ريب فيه اجمعني بضالتي"<br>
+فقلتها.. ووجدتُ كرتي!<br>
+كبرتُ الآن يا صاحبي،<br>
+وعرفتُ أن ثمة أشياء فقدها القلب أكثر من كرة حمراء!<br>
+وها أنا الليلة أضع يدي على قلبي وأقول:<br>
+"اللهم جامع الناس ليوم لا ريب فيه اجمعني بضالتي"<br>
+ومن فرط غربتي، وفقد الأحبة غربة، أقول:<br>
+اللهم اجمعني بي!<br>
+من فرط الحُب يُصبح أحدهم نحن!<br>
+
+هون عليك يا صاحبي،<br>
+الغائب سيعود يوماً بإذن الله،<br>
+تذكّر جيداً كيف عاد موسى عليه السلام إلى أمه،<br>
+وكيف رتّب الله سبحانه أحداث الكون كلها ليعيده إليها،<br>
+جعل النهر ساعياً يريد ليوصله إلى فرعون،<br>
+ورفق قلب آسيا عليه لتمنعه من ذبحه. وحُرّم عليه المراضع،<br>
+وها أنا الآن أفتقدك،<br>
+وأكاد كأم موسى أُبدي بك،<br>
+ولكن الله يربط على قلبي فأتماسك،<br>
+وكلي يقين بأنك عائد إليّ ذات يوم بإذن الله!<br>
+
+لا تبتئس يا صاحبي،<br>
+الأحبة يلتقون في النهاية!<br>
+تذكّر فراق يعقوب ويوسف عليهما السلام،<br>
+حشد مهول عمل على ذلك الفراق،<br>
+إخوة غلاظ شداد قساة،<br>
+وسيارة يبيعون الحُر عبداً في السوق،<br>
+وعزيز مصر يشتريه،<br>
+وزوجته تلقيه في غياهب السجن،<br>
+ثم تبدأ نقطة التحول برؤيا يراها الملك،<br>
+فيخرج يوسف من السجن،<br>
+ثم يُصبح عزيز مصر،<br>
+ثم يجمع الله الشتيتين!<br>
+برؤيا فقط كانت نقطة التحول!<br>
+فلا تمنّ رؤيا بلى،<br>
+وتذكرني دوماً أمسح على رأسك وأرثل واقعاً كما في المنام!<br>
+
+لا عليك يا صاحبي.ليست المسافات المادية هي التي تقرب الناس أو تباعد بينهم، بل القلوب هي التي تفعل ذلك. فحتى لو كانت المسافات بعيدة، فإن من نحبهم يظلون أقرب إلينا من حبل الوريد، بشرط أن يمتلئ القلب باليقين بالله.<br>
+
+وعلى الرغم من أهمية السعي في الحياة، إلا أن هناك أوقاتاً يُستغنى فيها عن السعي. فالسيدة مريم عليها السلام، في قمة ضعفها، قد استغنت عن السعي، ومع ذلك جاءها الرزق من الله حين قيل لها: ﴿وَهُزِّي إِلَيْكِ بِجِذْعِ النَّخْلَةِ تُسَاقِطْ عَلَيْكِ رُطَبًا جَنِيًّا﴾.<br>
+
+وفي ختام هذه الرسالة، يوجه الكاتب لك كلمات رقيقة وكأنه يمسح على رأسك في ليلة تعتريها الوحدة، قائلاً: "وهرا أنا الليلة أمسح على رأسك، وأقول لك: وهُزّي إليكِ.. والسلام لقلبك"..</p>` },
+        { title: "العزاء والجنة", content: `<p>عرف أن كل كلام المواساة ليس بإمكانه أن يسد ثلماً واحداً في القلب.
+فكيف بقلبك المليء بالثقوب كأنه غربال؟!<br>
+من كل ثقب تسل حبيب ومضى!<br>
+أنت المحكوم بفقد أحبابك.<br>
+جرّب إذا أحببت أحداً في المرة القادمة أن لا تحبّه، لعله يبقى!<br>
+
+ثمة مواقف تصبح فيها كل كلمات العزاء باردة.<br>
+وكل كلمات المواساة جوفاء!<br>
+عندما ماتت خديجة بنت خويلد ضاقت الدنيا بالنبي ﷺ، ولأن الله يعلم أي وجع في أن يفقد رجل حبيبته، كانت حادثة الإسراء والمعراج.<br>
+أخذه ربه إلى السماء ليعزيه بها.<br>
+أحياناً لا تصلح الأرض كلها لتكون عزاءً!<br>
+
+يا صاحبي، كان النبي ﷺ يُعزّي أصحابه بالجنة؛ نذكر حين رأى الصحابة ثياباً من حرير فأعجبوا بها، فقال لهم ﷺ: "أمناديل سعد بن معاذ في الجنة خير منها".<br>
+
+وقُطعت يدا جعفر في مؤتة.<br>
+فقال ﷺ: "لقد أبدله الله بهما جناحين يطير بهما في الجنة!"<br>
+وإذا فقد أحد ابناً سميراً له.. عزّاه ﷺ، وأخبره أنه في الجنة في كفالة إبراهيم عليه السلام وسارة!<br>
+
+فلتكن الجنة عزاؤك يا صاحبي.<br>
+فالجنة هي الفوز الذي يجعل كل الخسارات السابقة تافهة.<br>
+والنار هي الخسارة التي تجعل كل الانتصارات السابقة تافهة!<br>
+فإن خسرت في الدنيا معركتك، فشمّر ففي الجنة عزاء يُرمم شرحاً في قلبك!<br>
+
+في الجنة..<br>
+لا أحبة يرحلون.<br>
+أحبابك معك ولك وعندك، لست مضطراً لتتأمل بكل خيبة فيك لتكسب معركة الحفاظ عليهم!<br>
+
+في الجنة..<br>
+لا يأتي أحدهم إلى حياتك، ومن فرط حبك له تشعر كأنه قد نتف فيك الروح، ثم إذا ما أحببت، وهامت، وهِمت، وجُنت، جاءك مودعاً، وتتركك جثة هامدة لا تصلح لغيرك!<br>
+في الجنة..<br>
+لن تغاز، ولن تبكي، ولن تضرب رأسك بالجدار من فرط عجزك عن الوصول للشيء، أردته بكل ما فيك، كل ما تهواه فهو لك!<br>
+
+في الجنة..<br>
+لا قوانين تردع، ولا ضمير يُحاسب، لا ممنوعات، ولا عراقيل، على سجيتك ستكون، كل ما تريد أن تفعله تباشر به دون تفكير، تماماً كما الطفل الذي بدأ يحبو في الدنيا لا يعبأ بأحد!<br>
+
+في الجنة..<br>
+لا وجع، ولا سهر، لا نار تشب في صدرك، ولا يرد ينخر في عظمك، سليماً معافى لا يمسك سوء!<br>
+
+في الجنة..<br>
+لا يوجد عيون محمرة من كثرة البكاء، ولا أجفان متهدلة من كثرة السهر، لا تجاعيد، ولا شيب، لا انحناء في الظهر، ولا وهن في العظم، تخيل مقدار الراحة هناك، فُز يا صاحبي!<br>
+
+في الجنة..<br>
+لقاء أحبة ماتوا وتركوك، وجمعاً بآخرين أحببتهم فبطت بهم الدنيا عليك، في الجنة لهم فيها ما تشتهي أنفسهم!<br>
+
+في الجنة..<br>
+رفقة حلوة: الأنبياء، والصديقون، وأبو بكر وعمر، وآسيا بنت مزاحم ومريم بنت عمران، كل هؤلاء الذين كنا نتعزى بهم سنلتقيهم بإذن الله هناك!<br>
+
+في الجنة..<br>
+نظر إلى وجه الله الكريم، تخيل المشهد يا صاحبي، مجرد أن تتخيله يهون عندك بعض الذي تجد! فاللهم جنتك.<br>
+
+والسلام لقلبك.ً.</p>` },
+        { title: "ما كان لله يبقى", content: `<p>كنتُ البارحة أقرأ في سير أعلام النبلاء، وما زالت كلمات عبد الله بن المبارك عن الإمام مالك ترنُّ في أذني حتى اليوم، قال:
+"ما رأيتُ رجلاً ارتفع كمالك بن أنس، ليس له كثير صيام ولا صلاة، وإنما كانت له سريرة".<br>
+
+يا صاحبي..<br>
+عندما كُتبت الموطأ قالوا له:<br>
+ما حاجة الناس إليه وكتب الحديث كثيرة؟<br>
+فقال: ما كان لله يبقى!<br>
+وكان مالك كله لله، وبقي الموطأ!<br>
+
+يا صاحبي..<br>
+ليس شيء أحبُّ إلى الله من خبيئة صالحة،<br>
+يجعلها العبد بينه وبين ربّه!<br>
+لا تطلع عليها الأعين لتمدحها،<br>
+ولا تسمعها الأذن لتثني عليها،<br>
+تفعلها وليس في نيتك إلا الله،<br>
+واثقاً أنه لا يضيع شيء عنده!<br>
+
+صدقة دائمة لا ترصدها الكاميرات،<br>
+وركعات في الليل وأهل بيتك يحسبونك نائماً،<br>
+ديون تُسددها عن الغارمين في الدكاكين دون أن تعرفهم ويعرفوك،<br>
+كفالة يتيم لن يعرف من كفله إلا يوم القيامة!<br>
+
+يا صاحبي..<br>
+تأمل قول مالك: "ما كان لله يبقى!"<br>
+منشور تكتبه حباً لله، ودفاعاً عن دينه،<br>
+يُسخّر الله لك آلاف الناس ليحملوه عنك، ويبلغوه،<br>
+يلف الكرة الأرضية، وأنت جالس في بيتك!<br>
+
+كتاب تؤلفه وليس في خاطرك إلا الله،<br>
+وأن يجعله سبحانه سبباً لعودة تائب،<br>
+ومواساةً لمحزون، ولتربيته على كتف مكسور، وهدايةً لحيران!<br>
+تموتُ أنت ويبقيه الله لك!<br>
+شجرة تزرعها لله يبقيها الله واقفة كالجبل،<br>
+ويطرح لك فيها البركة،<br>
+ويسوق إليها الناس سوقاً ليعطيك الأجر،<br>
+وما كانت يوماً إلا نبتةً صغيرة، ولكن لأنها لله بقيت!<br>
+
+بئر تحفره لله،<br>
+قد يكون جزاؤه شربة من يد النبي ﷺ. لا أحد أوفى من الله!<br>
+
+دار تحفيظ تُنفق عليها،<br>
+أنت الذي لم تُسعفك ذاكرتك لتحفظ،<br>
+يُسخّر الله لك من يحفظ فيه،<br>
+وتكتب الملائكة في صحيفتك أجرهم جميعاً!<br>
+
+ما كان لله يبقى.<br>
+من كان يظنُّ أن يُباع رياض الصالحين في مكتبات باريس ولندن،<br>
+ولكن الله اطلع على قلب الإمام النووي فارتضاه، فأحيا له كتابه!<br>
+
+وليس من فراغ أن تتعلق القلوب بمدارج السالكين،<br>
+فمن قبل تعلق قلب ابن القيم بالله!<br>
+
+ولا غرابة أن يموت ابن الجوزي ويبقى كتابه صيد الخاطر،<br>
+فمن كان لله كان الله له!<br>
+
+كان الإمام أحمد يدعو: اللهم أمتني ولا يعرفني أحد من خلقك!<br>
+وحين اطلع الله على قلبه،<br>
+وراه لا يريد الشهرة، أماته ولا يجهله أحد من الناس،<br>
+يا صاحبي، تذكّر دوماً: ما كان لله يبقى!<br>
+
+والسلام لقلبك..</p>` },
+        { title: "الزفّة وفقد الحبيب", content: `<p>تسألني: ما يفعل مَن زُهِد حبيبته إلى غيره؟
+فأقول لك: أولاً اسأل الله أن يربط على قلبك، فليس هناك عملية جراحية أكثر ألماً في الكون من أن يستأصلوا قطعة من قلب رجل، وهو ينظر إليهم دون بنج حتى!<br>
+
+يا صاحبي..<br>
+قال الإمام القشيري في تفسير قول ربنا على لسان سليمان عليه السلام: "لأعذبنه عذاباً شديداً أو لأذبحنه، العذاب الشديد هو أن يُفرّق بينه وبين مَن يُحب، فإن فقد الأحبة غربة!<br>
+
+تحتاج أن تخفف عن مشاعرك يا صاحبي،<br>
+أنفث هذا البركان المشتعل في صدرك،<br>
+اطفِء هذه النار المستعرة في قلبك،<br>
+صلِّ صلِّ كثيراً، وسبّح، واستغفر!<br>
+ابتكر طريقة مجنونة لتريح نفسك،<br>
+كان تكتب رسالة إلى زوجها دون أن ترسلها له،<br>
+صدقني سيساعدك الأمر ولو قليلاً!<br>
+
+قُل له: لا تدعها تنام ليلة وهي عيناها دامعة، فهذا يُتعبها كثيراً، تؤلمها معدتها حين تحزن، وتتلوى من الألم، وتتوقف عن تناول الطعام!<br>
+فتحايل عليها لتضحك،<br>
+ولو اقتضى الأمر أن تعتذر لها رغم أنها المخطئة فلا تتردد، المهم أن لا تتركها تنام حزينة!<br>
+
+قُل له: لا تخدعك بهذه القسوة التي تبدو عليها، هي طيبة من الداخل، عذبة جداً، ورقيقة بشكل مفرط!<br>
+من لا يعرفها يحسبُ أنَّ فيها شيئاً من التناحة ويباسة الرأس، ولكن من يعرفها جيداً، يعرف أنها طفلة كبيرة،<br>
+تُعطيك الدنيا كلها إذا أشعرتها بحنانك،<br>
+إنها تُمتلك من قلبها، من قلبها فقط،<br>
+فدع عنك قسوتك،<br>
+القسوة معها لا تجدي،<br>
+القسوة تُخرج تلك المحاربة العنيدة الكامنة فيها، وباللين تجدها أنعم وأرق من وردة!<br>
+
+قُل له إنها تحبّ الاهتمام، فانتبه لها جيداً،<br>
+يُسعدها أن تصبَّ لها القهوة في فنجانها، الفنجان الثاني خصوصاً!<br>
+وأن تطعمها لقمة بيدك، وأن تنتبه لخدش صغير في يدها فتسألها عنه،<br>
+وإياك أن تشيح بوجهك عنها وهي تُحدثك، فهذا يزعجها كثيراً.<br>
+أنظر إليها باهتمام وهي تُكلمك، ثمة كلام كبريتونه عينيها دون أن تقوله بلسانها،<br>
+عندما تعرفها جيداً ستفهم هذه النقطة جيداً!<br>
+
+سلها كيف كان يومها، ماذا أكلت، وأين ذهبت، وماذا تريد أن تفعل بقية يومها،<br>
+وعندما تحدثك عن مشاكل عملها اصغ،<br>
+إنها لا تحملّك مشاكلها،<br>
+صدقني هي أقوى مني ومنك، ولكنها طريقتها في أن تتخفف!<br>
+
+قُل له كُن ذكياً وأنت تتعامل معها،<br>
+انتبه جيداً للأشياء التي تنقصها وأحضرها لها دون أن تطلب،<br>
+فهي عزيزة نفس، لو ماتت عطشاً لن تطلب منك كوب ماء تحمله بيدك،<br>
+ولكن يسعدها جداً أن تستبقها أنت،<br>
+إنها لا تهتم بالحصول على الأشياء، بقدر ما تهتم بطريقة الحصول عليها!<br>
+
+قُل له عندما تراها حزينة لا تُكلمها، ولا تواسها،<br>
+تُمر بها لحظات لا تسمعك ولو صرخت في أذنها،<br>
+عاملها فقط، ستجدها قد بكت بسرعة، فإن بكت فجأة، فاعلم أنها تثق بك،<br>
+فهي يحرجها أن تبدو ضعيفة،<br>
+ولكن متى أحبّتك، فستبقى دموعها حتى تراث لتناغتك وتبكي!<br>
+
+قُل له ثق بها كثيراً،<br>
+فهي كتف متين للاتكاء، ومستودع أمين للأسرار،<br>
+لا تُفلت يدها بسهولة، ولا تبوح بما ائتمتها عليه، لا تبوح أبداً،<br>
+دبلوماسية من الطراز الأول، لبقة كأنها كتاب في فن الإتيكيت،<br>
+تُراعي المشاعر، وتجبر الخواطر، وتبتسم في أشد لحظات ضيرها،<br>
+لأنها لا تريد لك أن تحزن،<br>
+نبيلة إلى درجة تُقدّم مَن تُحب على نفسها، ويا لحظ مَن تُحبه!<br>
+
+قُل له لا تخدعك هذه التناقضات التي قد تراها للوهلة الأولى<br>
+إذا أعجبتك رقتها، فلا تظن تلك الشراسة الكامنة فيها!<br>
+وإذا أخافتك شراستها، فلا تنسَ تلك الرقيقة التي تكونها عندما ترضى،<br>
+نسيت أن أخبرك، أنها لا ترضى سريعاً، هذا طبعها، عليك أن تحاول أكثر من مرة، وهي والله تستحق!<br>
+
+إذا رأيتها غارقة في عملها، فلا تقل لا قلب لها،<br>
+هي تحب أن تنجح، وأن تكون فخورة بنفسها،<br>
+تكره الاعتماد على الآخرين، ويوجعها أن تعتمد على أحد،<br>
+ولكنها حين تُحبّ، حين تُحبّ فعلاً، فلا تشبهها بقلبها امرأة أخرى في هذا العالم!<br>
+
+جرّب هذا يا صاحبي لعله ينفع،<br>
+وإن لم ينفع، فأنت لم تخسر شيئاً،<br>
+ثمة خسارات تبدو بعدها كل الخسارات الأخرى مجرد هزائم تافهة،<br>
+وأي خسارة أكبر من أن يخسر رجل المرأة التي يحب!<br>
+
+هو قدر الله يا صاحبي، فتأدّب!<br>
+توجّع بالحمد، وتصبّر بحسبي الله ونعم الوكيل،<br>
+فما فاتك لم يُخلق لك، وما خُلق لك لن يفوتك،<br>
+رُفعت الأقلام وجفت الصحف،<br>
+﴿لَا تَدْرِي لَعَلَّ اللَّهَ يُحْدِثُ بَعْدَ ذَلِكَ أَمْرًا﴾<br>
+
+والسلام لقلبك..</p>` },
+        { title: "الحب ملاذ آمن", content: `<p>تسألني: لمن يهرع المرء أولاً؟
+فأقول لك: لمن يُحب!<br>
+ألم ترَ كيف أنَّ النبي ﷺ عندما نزل عليه الوحي، وأصابه البرد والخوف،<br>
+لم يذهب إلى صديقه الوفي أبي بكر،<br>
+ولا إلى عمه الشجاع حمزة،<br>
+ولا إلى عمه الحكيم أبي طالب<br>
+وإنما هرع إلى خديجة!<br>
+يا صاحبي، إنَّ الذي تُحبه أكثر، هو مَن تهرع إليه أولاً!<br>
+
+الحُبُّ ملاذنا الآمن، وحضن الحبيب على ضيقه أكثر الأماكن اتساعاً على ظهر الأرض!<br>
+وإنك لن تعرف معنى الأمن إلا في مكانين: سجادة صلاتك، وصدر حبيبك!<br>
+
+أحببت امرأةً كما لم أُحبّ أحداً من قبل، وكما لن أحبَّ أحداً من بعد،<br>
+ومازحتها مرةً قائلاً: أنتِ أجمل قطعة مني، تماماً كالحجر الأسود من الكعبة!<br>
+<br>
+وكنتُ كلما حزنتُ أتيتها،<br>
+فداعبت شعري بأصابعها،<br>
+فتذهب عني الذي أجد،<br>
+صدقني تكفي خمسة أصابع لتعالجك،<br>
+الحبيب لا يمسح على رأسك بيده وإنما بقلبه!<br>
+وكنت كلما فرحتُ أتيتها،<br>
+لا أشعر أن الفرح سيكون فرحاً حقاً إلا إذا شاركتها إياه!<br>
+<br>
+وكنت كلما رأيتها حزينة،<br>
+أتفنن، وأحتال، وأغازل حتى تضحك!<br>
+فإذا ضحكت قلت لها:<br>
+الغمّازة الصغيرة التي ترتسم على خدك حين تبتسمين كفايتي لتصبحي،<br>
+هي أجمل اقتباس في العالم!<br>
+وتسببت أن أقول لها أن غمازتيك ليستا تجعيداً طفيفاً يحدث لحظة،<br>
+إنهما فلقتي قمر!<br>
+
+والسلام لقلبك..</p>` },
+        { title: "الإنهاك والهشاشة", content: `<p>ها أنت الآن منهك مجسّد!
+حتى أنك عاجز عن النوم رغم شدة التعب،<br>
+تدور في رأسك ألف فكرة،<br>
+حتى ليخيل إليك أن العالم الذي في رأسك أكبر من العالم الذي رأسك فيه!<br>
+
+وحيد رغم كل هذا الزحام حولك!<br>
+كلهم يرون صلابتك،<br>
+تلك القشرة السميكة التي تُغلّف بها نفسك،<br>
+كقشرة الجوز، صلبة جداً من الخارج، ولكنها من الداخل هشّة!<br>
+لا أحد منهم يرى هذه الهشاشة التي أنت فيها!<br>
+
+كلهم يرون ابتسامتك،<br>
+تلك التي تعلم جيداً أن دواءً،<br>
+ولا أحد منهم يعلم أنك تتظاهر أن تنفرد بنفسك لتبكي!<br>
+
+كلهم يستندون عليك،<br>
+هكذا عودتهم أنت،<br>
+أن تكون كتفهم وملاذهم.<br>
+
+ولكن كيف تتصرف أن حتى الأقوياء تمرُّ بهم لحظات ضعف،<br>
+ويحتاجون من يسندهم أيضاً؟!<br>
+ولكنك لا تجرؤ أن تبوح بضعفك،<br>
+لا يمكن للشجرة أن تقول: أريد أن أستلقي قليلاً لقد تعبتُ من الوقوف!<br>
+
+لا عليك يا صاحبي، لا عليك.<br>
+هذا هو قدرك، أن تكون كالشمعة التي تحرق نفسها لتضيء للآخرين!<br>
+أنتَ بطل في شأنك، فإذا تكدرت يتحزن بلد، ولو ملت لمالوا!<br>
+اعلم أنك تعبت.<br>
+ولكنك لا تملك رفاهية أن تستريح قليلاً،<br>
+الجنود لا يستلقون أثناء المعركة وإن أنهكهم التعب!<br>
+
+والآن خُذ هدنة، وأعزل قلبك قليلاً يا صاحبي!<br>
+أنت تقبل لي يوماً، ألستَ في هذه الحياة لا يمشون إلا في دروب أقدارهم؟!<br>
+فلا تقتل نفسك بكثرة التفكير، ولا تشغل قلبك بما ليس لك يد فيه!<br>
+فإن الله نافذ لا محالة، مهما بدت لك الطرق عسيرة، والأبواب مغلقة!<br>
+ليس لك إلا السعي، وليس عليك إلا أن تمضي، أما متى تصل، كيف، وأين؟<br>
+
+فهذا غيب لا يعلمه إلا الله!<br>
+
+شيء واحد لا تنسه يا صديقي،<br>
+بعض المسؤوليات اصطفاء!<br>
+والله لا يستخدم في سبيله إلا مَن كان نقياً!<br>
+نحن لا نستخدم أداة متسخة لننجز عملاً ما،<br>
+هذا ونحن بشر، فكيف بالله وهو الله؟!<br>
+ما دام قد اصطفاك، فقد نظر إلى قلبك، فارتضاه،<br>
+فأي شيء بعدها يمكن أن يُكدرك؟!<br>
+المعركة صعبة يا صاحبي،<br>
+أعلم أنها حتماً، ولكن الله يعطر الله ولو من باب المواساة،<br>
+أن الله لا يعطي أصعب المعارك إلا لأقوى جنوده!<br>
+
+والسلام لقلبك..</p>` },
+        { title: "نقص العناق", content: `<p>شيء ما في جسدك يقول أنك لست بخير،
+وأنك تحتاج إلى دواء، ولكنه لا يُشبه ذلك الذي يُباع في الصيدليات!<br>
+تُعاني نقصاً في العناق، ولم يبتلوا الأحضان في قوارير بعد!<br>
+
+تريد أن تشمَّ رائحة حبيبك البعيد،<br>
+تلك الرائحة الكفيلة بأن تجعلك تتعافى للشفاء،<br>
+تخاف أن تُخبر بها الصيادلة فيحسبونك مجنوناً،<br>
+أو لعلك تخشى أن يقولوا لك: عندنا بديل!<br>
+فتقول لهم: يا خسارة علمكم، صدقوني لا يوجد بديل!<br>
+
+تحتاج غسولاً لقلبك،<br>
+هذه الدنيا تلوّثنا يا صاحبي،<br>
+مهما قاتلنا للحفاظ على نقاء قلوبنا، تعلق فيها أشياء،<br>
+فالثوب الأبيض أسرع للاتساخ من غيره،<br>
+وهكذا القلوب البيضاء، أي لوثة تترك أثراً عليها!<br>
+
+تحتاج كفاً تتكيء ليه،<br>
+ذلك الأمان الذي لا يستطيع الأطباء كتابته في وصفة.<br>
+
+ولا يستطيع الصيادلة العثور عليه في رفوفهم مهما كان الخط واضحاً!<br>
+كنتُ أرأيتُ يا صاحبي،<br>
+ها هي كلمة واحدة من ثلاثة حروف، ومكتوبة بخط واضح<br>
+ولكن يا شدة الأكتاف الصالحة للاتكاء، وكذلك تطلب بضعة ميل!<br>
+<br>
+تحتاج شراباً للنسيان،<br>
+أنت الذي تمضي نهارك شاغلاً نفسك كي لا تحنَّ ولا تشتاق!<br>
+ثم حين تأوي إلى ليلك، آخر الليل،<br>
+وتستفرد فيك أشواقك، ويستبد بك الحنين،<br>
+تأخذ ملعقة وتنام،<br>
+ليل المشتاقين طويل يا صاحبي،<br>
+فلا ينام من كان في صدره فجوة لا يملأها إلا رأس واحد!<br>
+
+تحتاج قارورة دموع صغيرة تسكبها في عينيك حين تريد أن تبكي ولا تستطيع،<br>
+يحدث يا صاحبي أن تدرَّ الدموع من كل خلية فيك إلا من عينيك!<br>
+ولا شيء يريح المرء مثل أن يبكي، ولكنه أحياناً لا يستطيع!<br>
+
+تحتاج ضماداً لكل الجروح التي لا يراها الناس،<br>
+تلك الجروح الغائرة التي تتحسسها وحدك بين لحظة وأخرى.<br>
+
+تمرُّ عليك لحظات تعتقد فيها أنك شُفيت من كثرة ما تناسيت،<br>
+ولكن ما إن تخلو بنفسك، ستتفقد جرحك لتجده ما زال رطباً ونازفاً،<br>
+أوجع الجروح يا صاحبي هي التي تكون في الروح!<br>
+
+والسلام لقلبك..</p>` },
+        { title: "حسن الظن بالله", content: `<p>أمضى القسيس الكاثوليكي الفرنسي "شارل دوفوكو" أحد عشر عاماً في الصحراء الكبرى بين قبائل الطوارق، مبشراً وداعياً إلى النصرانية، ومحاولاً أن يثنيهم عن دينهم.
+وقدّم خلال هذه السنوات معونات ومساعدات وإغاثات كثيرة، ولكنه لم يستطع أن يُقنّع طارقياً واحداً بترك الإسلام!<br>
+حتى العجوز التي كانت تخدمه نظير راتب كبير، قالت له يوماً:<br>
+أنت رجل طيب يا سيد شارل، ومن الخسارة أن تموت كافراً!<br>
+
+والشيء بالشيء يُذكر يا صاحبي، جاءت جماعة تبشيرية إلى إحدى قرى صعيد مصر، وأقامت رحلها هناك لعامين، بنوا فيها للناس مستوصفاً ومدرسة، واشتروا لهم الكثير من الثياب، وقدموا لهم الهدايا، وكانوا بطبيعة الحال يبذلون شيئاً من الشُّم في العمل!<br>
+
+ثم ارتأى القسيس الأكبر أن يجمع الناس إلى حفل كبير، علّه يصطاد الناس دفعة واحدة!<br>
+اعتلى المنصة، وأراد أن يبدأ حديثه، ولكن الفلاحين بطبيعتهم البسيطة التي اعتادوا عليهم، كانوا يتحدثون فيما بينهم دون إصغاء، فحاول أن يلفت انتباههم، ولكن دون جدوى!<br>
+عندها قال له عمدة القرية بلغته الصعيدية الحلوة: مش كدة حضرتك!<br>
+ثم قام وقال لهم بأعلى صوته: صلّوا على رسول الله، فقالوا بصوت واحد: اللهم صلّ على محمد وآل محمد، وعمَّ الصمتُ، وخيّم الهدوء.<br>
+ولكن القسيس نزل عن المنصة لأنه عرف أن الكلام لن يجدي!<br>
+
+يا صاحبي،<br>
+عجيب هذا الدين، والله عجيب!<br>
+متى خالطت بشاشته كيان المرء، ملأته طمأنينة في القلب، وراحة في العقل، حتى لتجد أن الأميَّ الذي لا يعرف كيف يفك الحرف، لا يستطيع الفلاسفة كلهم أن يُزعزعوا إيمانه قيد أنملة، بينما تجد فلاسفة العالم، ومنظريه، ومفكريه، تملؤهم الشكوك.<br>
+حتى أن أحدهم ليؤمن صباحاً، ويرتد مساءً، يسيرون من غير هدى كالأعمى الذي يتحسس طريقه، هيئ مرة، ويقوم مرّةً.. ذاك أن المعرفة شيء، والإيمان شيء آخر!<br>
+
+يا صاحبي،<br>
+لقد زرع النبي ﷺ بذرة تنمو داخل القلب، تتشعب، وتنتشر، فتملأ المرء إيماناً عجيباً، وتسليماً رهيباً، وطمأنينة ليست لأحد من سكان هذا العالم غير أتباع هذا الدين!<br>
+
+
+<br>إنك لترى الشيخ المتهالك يتكئ على عكازه ويسير إلى المسجد بخُطوة،
+مسير من يعرف أنه يمشي إلى وجهته الآمنة!<br>
+ليس السير بالأقدام يا صاحبي ولكنه بالقلوب، وليس غيرنا له هذا المسير الباذخ!<br>
+
+وإنك لترى العجوز على سجادة صلاتها، رافعة يديها إلى السماء تلهج بالدعاء، بيقين، لوح من يعرف أن ليس غير الله يُسأل!<br>
+وإنك لترى فاقد الحبيب يموت حار الدمع بارد القلب، يعرف أن ما أصابه لم يكن ليعطله.<br>
+فتود لو تعزيه، فتجده جيلاً لا يحتاج إلى عزاء، إلا بالقدر الذي يأمل به الناس بالناس!<br>
+
+وإنك لتجد المؤمن الذي لا يكاد يجد قوت يومه، فتسأله عن حاله، فيطالعك بأبلغ عبارات الحمد، ولو لم تكن تعرفه لحسبت أن له مال قارون!<br>
+ليس غير الإيمان يجعل من الناس ناس!<br>
+
+يا صاحبي،<br>
+من ذاق من الإيمان مَذقة واحدة، ما زعزعت إيمانه شكوك الدنيا كلها!<br>
+
+حدّثني شيخٌ درستُ الفقه على يديه، عن قصة حقيقية فيها شيء من الطرفة، وكثير من اليقين!<br>
+هي سبعينيات القرن الماضي عاد طالب إلى قريته قادماً من الاتحاد السوفيتي بعد سنوات طويلة من دراسة الطب،<br>
+تعلّم فيها كيف يعمل جسم الإنسان بهذا الاتقان، ولكنه صار شيوعياً ملحداً يقر أن هذا الجسم خالقاً!<br>
+وأنه بعد قدومه بأيام خرج يتمشى في القرية، فصادف راعياً كبيراً في السن،<br>
+فأخذ يحدّثه، ويسأله عن حاله،<br>
+فقال الراعي: الحمد لله<br>
+فقال له: لا يوجد شيء اسمه الله، هذه مجرد خرافات حشوها بها عقولنا ونحن صغار!<br>
+لم يجد الراعي رداً غير أن قال: الله يا رجل، الله!<br>
+فقال له الطبيب: هل تستطيع أن تُثبت لي وجود الله عملياً؟<br>
+فما كان من الراعي إلا أن انهال عليه بالضرب بعصاه الغليظة،<br>
+فقال له متوجعاً والعصا تنهال عليه: "منشان الله خلص!"<br>
+فقال له الراعي: "منشان الله!"<br>
+لقد أثبتُ لك وجود الله عملياً!<br>
+
+والسلام لقلبك.</p><div class='gold-callout'>حسن الظن بالله كنز لا يفنى</div>` }
+    ];
+
+    // القواعد الذهبية (40 قاعدة)
+    const BOOK_RULES = [
+        { num: 1, title: "الطيبون للطيبين", text: "يُسخِّر الله للطيبين أشباههم، الله عادل يا صاحبي، ومن صور عدله أن الجزاء كثيراً ما يكون من جنس العمل، كُن طيباً تُرزق بالطيبين!" },
+        { num: 2, title: "من توكل على الله كفاه", text: "من توكل على الله كفاه، ومن لاذ بالناس أركنه إليهم! إبراهيم عليه السلام في كفة المنجنيق قال: حسبي الله ونعم الوكيل! فعلق قلبك بالله!" },
+        { num: 3, title: "من لزم الحمد تتابعت الخيرات", text: "من لزم الحمد تتابعت عليه الخيرات، الحمد ليس لساناً فقط، الحمد أسلوب حياة!" },
+        { num: 4, title: "من عرف الله في الرخاء عرفه في الشدة", text: "من عرف الله في الرخاء، عرفه الله في الشدة! قال الله عن يونس: ﴿فَلَوْلَا أَنَّهُ كَانَ مِنَ الْمُسَبِّحِينَ﴾. فليكن الله دائماً أولاً." },
+        { num: 5, title: "من لزم الاستغفار فتحت المغاليق", text: "من لزم الاستغفار فتحت له المغاليق! ابن تيمية يقول: إن المسألة لتنغلق في وجهي، فأستغفر الله ألف مرة فتفتح عليّ." },
+        { num: 6, title: "لا تُجبر نفسك على أحد", text: "لا تُجبر نفسك على أحد، ولا تُجبر أحداً عليك! كُن حازماً، واحفظ ماء قلبك، الحب من طرف واحد مذلة." },
+        { num: 7, title: "الطريقة الوحيدة للحصول على الحب هي تقديمه", text: "الطريقة الوحيدة لتحصل على الحُب هي أن تقدمه! ازرعه أولاً ثم اقطفه فلا حصاد إلا لزارع!" },
+        { num: 8, title: "لا تتوقع أن يحبك الجميع", text: "لا تتوقع أن يحبك الجميع، حتى الأنبياء لم يحبهم الجميع. الناس أحياناً يكرهونك لمزاياك." },
+        { num: 9, title: "الناس يتغيرون دوماً", text: "الناس يتغيرون دوماً، تعامل مع الجميع ضمن التحديث الجديد لهم، لا وفق الانطباع القديم." },
+        { num: 10, title: "نفس العين ولكن نظرة مختلفة", text: "كلنا نمتلك نفس العين ولكننا لا نملك نفس النظرة. موقفنا لا يخبر بحقيقة القضية، وإنما بحقيقتنا نحن!" },
+        { num: 11, title: "قدرات الناس متفاوتة", text: "قدرات الناس متفاوتة، فلا تقارن! العصفور يطير والسمكة تسبح، عبث تعليم العصفور السباحة." },
+        { num: 12, title: "كل مر سيمر", text: "كُلُّ مَرٍّ سيَمُرّ. ودوام الحال من المحال. هذا الوقت سيمضي!" },
+        { num: 13, title: "البكاء يُعزي لكنه لا يعيد الغائبين", text: "البكاء يُعزي ولكنه لا يعيد الغائبين! ابكِ لتتخلص من هم، ولكن اعلم أن الأشياء تنتهي إلى غير رجعة." },
+        { num: 14, title: "كرمك الزائد يُعتاد عليه", text: "كرمك الزائد يُعتاد عليه حتى يصبح واجباً. أما الذين يقدرون المعروف فابذل ولا تبقِ شيئاً." },
+        { num: 15, title: "لا تخسر نفسك", text: "لا تخسر نفسك وأنت تحاول الحفاظ على من لا يهتم بفقدانك. من عزم على الرحيل لن يبقيه شيء." },
+        { num: 16, title: "إذا أراد الله شيئاً تعطلت القوانين", text: "إذا أراد الله شيئاً تعطلت قوانين العالم. موسى لم يغرق، وإسماعيل لم يُذبح، ومريم أنجبت بغير زوج." },
+        { num: 17, title: "التواضع في غير موضعه مذلة", text: "التواضع في غير موضعه مذلة، والعفو من غير قدرة ضعف. فلا تفعل أشياء ضيعة." },
+        { num: 18, title: "السعادة معدية", text: "السعادة معدية والكآبة كذلك. صاحب السعيد تسعد!" },
+        { num: 19, title: "آراء الآخرين بك ليست واقعك", text: "آراء الآخرين بك هي وجهة نظرهم، فلا تجعلها واقعك. قولهم إنك فاشل لن يصبح حقيقة إلا إن آمنت به." },
+        { num: 20, title: "لا تندم على شيء", text: "لا تندم على شيء، الأيام الجميلة أسعدتك، والأيام السيئة أنضجتك. لو فكرت بكل وجع بالدرس الذي تعلمته، لرأيت أن الدرس أثمن!" },
+        { num: 21, title: "ابدأ الآن", text: "ابدأ الآن! الأوقات المناسبة لا تُنتظر، وإنما تُصنع. الانتظار مقتل الهمم!" },
+        { num: 22, title: "ارفق بنفسك", text: "ارفق بنفسك! كل إنسان كان سيئاً في لحظة ما. لا تجلد نفسك أكثر من اللازم." },
+        { num: 23, title: "لحظة التوقف", text: "هناك لحظة عليك أن تتوقف فيها. ليس عيباً أن تعود من منتصف طريق خاطئ." },
+        { num: 24, title: "الناس ليس لهم ردة فعل واحدة", text: "الناس ليس لهم ردة فعل واحدة تجاه أمر واحد. اعرف نفسية من تتعامل معه." },
+        { num: 25, title: "أحياناً لا تفعل شيئاً", text: "أحياناً الفعل الوحيد الصائب هو أن لا تفعل شيئاً! بعض الأشياء لن تستقيم كما تريد." },
+        { num: 26, title: "تراجع قليلاً", text: "أحياناً عليك أن تتراجع قليلاً، وهذا ليس انهزاماً. السهم يعاد إلى الوراء لينطلق أبعد." },
+        { num: 27, title: "دع الأمور تهدأ", text: "دع الأمور تهدأ قليلاً. لا يمكنك رؤية وجهك على صفحة ماء يغلي." },
+        { num: 28, title: "لا تعش دون قضية", text: "لا تعش دون قضية! من يعيش لنفسه يستريح ولكنه يعيش صغيراً ويموت صغيراً." },
+        { num: 29, title: "ما دامت هناك إرادة فهناك سبيل", text: "ما دامت هناك إرادة فهناك سبيل! من كان جاداً في البحث سيجد." },
+        { num: 30, title: "ردة فعلك هي التي تعطي التأثير", text: "ردة فعلك هي التي تعطي مساحة التأثير. الأشياء تؤثر فيك بقدر سماحك لها." },
+        { num: 31, title: "القمة تتسع للجميع", text: "القمة تتسع للجميع. تكسيرك لمجاديف غيرك لن يزيد سرعة قاربك." },
+        { num: 32, title: "التردد مقبرة الفرص", text: "التردد مقبرة الفرص! إذا هبت رياحك فاغتنمها." },
+        { num: 33, title: "لا تسقط سريعاً", text: "لا تسقط سريعاً! هذه الدنيا حلبة ملاكمة، فتوقع أن تُلطم وتعلم كيف تتلقاها بثبات." },
+        { num: 34, title: "لا تخسر من يحاول استرضاءك", text: "لا تخسر من يحاول استرضاءك دائماً. العظم المكسور بعد الجبر يصبح أقوى." },
+        { num: 35, title: "كل إنسان فيه ما يكفيه", text: "كُلُّ إنسان فيه ما يكفيه، فماذا بعد؟" },
+        { num: 36, title: "العتاب محبة", text: "عاتب أحبابك فالعتاب محبة القلوب، ولكن تذكر لا أحد تهون عليه كرامته." },
+        { num: 37, title: "من يحب يحب العيوب أيضاً", text: "من يُحِبُّ لا يُحِبُّ الميزات فقط، وإنما يُحِبُّ العيوب أيضاً!" },
+        { num: 38, title: "كل علاقة لها قوانينها الخاصة", text: "كل علاقة لها قوانينها الخاصة! لا تعمم تجاربك." },
+        { num: 39, title: "لا أحد يعرف كل قواعد الحياة", text: "لا أحد يعرف كل قواعد الحياة، وهذه أهم قاعدة ذكرتها لك! والسلام لقلبك" }
+    ];
+
+    let currentChapter = 0;
+    let currentFontSize = 18;
+    let activeFont = "Cairo";
+    let showingRules = false;
+    let darkTheme = true;
+
+    function renderChapter() {
+        const container = document.getElementById("readerContainer");
+        const ch = FULL_BOOK_CHAPTERS[currentChapter];
+        const html = `
+            <div class="page-masterpiece">
+                <div class="chap-badge">📖 المقطع ${currentChapter+1} من ${FULL_BOOK_CHAPTERS.length}</div>
+                <div class="page-heading">${ch.title}</div>
+                <div class="rich-text" style="font-size: ${currentFontSize}px; font-family: '${activeFont}', 'Cairo', sans-serif;">
+                    ${ch.content}
+                </div>
+                <div class="nav-arrows">
+                    <button class="arrow-nav" id="prevBtn">‹  السابق</button>
+                    <button class="arrow-nav" id="nextBtn">التالي  ›</button>
+                </div>
+                <div class="footer-info">
+                    📧 <a href="mailto:rahimmoussouni77@gmail.com">rahimmoussouni77@gmail.com</a> &nbsp;|&nbsp;
+                    📞 <a href="tel:0561146892">0561146892</a>
+                </div>
+            </div>
+        `;
+        container.innerHTML = html;
+        document.getElementById("prevBtn")?.addEventListener("click", () => { if(currentChapter > 0) { currentChapter--; renderChapter(); saveProgress(); } });
+        document.getElementById("nextBtn")?.addEventListener("click", () => { if(currentChapter < FULL_BOOK_CHAPTERS.length-1) { currentChapter++; renderChapter(); saveProgress(); } });
+        updateProgress();
+    }
+
+    function renderRules() {
+        const container = document.getElementById("readerContainer");
+        let html = `<div class="page-masterpiece"><div class="chap-badge">📜 كنوز الحكمة</div><div class="page-heading">القواعد الذهبية الأربعون</div><div class="rich-text" style="font-size: ${currentFontSize}px; font-family: '${activeFont}', 'Cairo', sans-serif;">`;
+        html += `<p style="text-align:center; margin-bottom:2rem;">✧ 40 قاعدة من نور ✧</p>`;
+        BOOK_RULES.forEach(rule => {
+            html += `
+                <div class="rule-card-lux">
+                    <div class="rule-number-lux">القاعدة ${rule.num}</div>
+                    <div class="rule-title-lux">${rule.title}</div>
+                    <div class="rule-text-lux">${rule.text}</div>
+                </div>
+            `;
+        });
+        html += `<div class='gold-callout' style="text-align:center;">والسلام لقلبك يا صاحبي ✨</div>
+                 <div class="nav-arrows"><button class="arrow-nav" id="backToChapters" style="margin:0 auto;">↺ العودة إلى الفصول</button></div>
+                 <div class="footer-info">
+                    📧 <a href="mailto:rahimmoussouni77@gmail.com">rahimmoussouni77@gmail.com</a> &nbsp;|&nbsp;
+                    📞 <a href="tel:0561146892">0561146892</a>
+                </div>
+                </div></div>`;
+        container.innerHTML = html;
+        document.getElementById("backToChapters")?.addEventListener("click", () => { showingRules = false; renderChapter(); updateTabs(); });
+    }
+
+    function updateProgress() {
+        const percent = ((currentChapter+1)/FULL_BOOK_CHAPTERS.length)*100;
+        document.getElementById("royalProgress").style.width = percent+"%";
+        localStorage.setItem("savedChapter", currentChapter);
+        const timeSpan = document.getElementById("timeInfo");
+        if(timeSpan) timeSpan.innerHTML = showingRules ? `📜 40 قاعدة ذهبية` : `📖 فصل ${currentChapter+1} من ${FULL_BOOK_CHAPTERS.length}`;
+    }
+
+    function saveProgress() { localStorage.setItem("savedChapter", currentChapter); updateProgress(); }
+
+    function buildTOC() {
+        const list = document.getElementById("tocList");
+        list.innerHTML = "";
+        FULL_BOOK_CHAPTERS.forEach((ch, idx) => {
+            const li = document.createElement("li");
+            li.textContent = `${idx+1}. ${ch.title}`;
+            li.onclick = () => { showingRules = false; currentChapter = idx; renderChapter(); document.getElementById("royalToc").classList.remove("open"); updateProgress(); updateTabs(); };
+            list.appendChild(li);
+        });
+    }
+
+    function buildRulesList() {
+        const list = document.getElementById("rulesList");
+        list.innerHTML = "";
+        BOOK_RULES.forEach(rule => {
+            const li = document.createElement("li");
+            li.className = "rule-list-item";
+            li.innerHTML = `<span style="color:#d4af37;">${rule.num}.</span> ${rule.title}`;
+            li.onclick = () => { showingRules = true; renderRules(); document.getElementById("royalToc").classList.remove("open"); updateTabs(); };
+            list.appendChild(li);
+        });
+    }
+
+    function updateTabs() {
+        const chaptersPanel = document.getElementById("chaptersPanel");
+        const rulesPanel = document.getElementById("rulesPanel");
+        const tabChapters = document.getElementById("tabChaptersBtn");
+        const tabRules = document.getElementById("tabRulesBtn");
+        if(!showingRules) {
+            chaptersPanel.style.display = "block";
+            rulesPanel.style.display = "none";
+            tabChapters.classList.add("active");
+            tabRules.classList.remove("active");
+        } else {
+            chaptersPanel.style.display = "none";
+            rulesPanel.style.display = "block";
+            tabChapters.classList.remove("active");
+            tabRules.classList.add("active");
+        }
+        updateProgress();
+    }
+
+    // شاشة الترحيب
+    setTimeout(() => {
+        const splash = document.getElementById("splashScreen");
+        const mainContent = document.getElementById("mainContent");
+        splash.style.opacity = "0";
+        setTimeout(() => {
+            splash.style.visibility = "hidden";
+            mainContent.classList.add("visible");
+        }, 800);
+    }, 2000);
+
+    document.getElementById("fontIncBtn")?.addEventListener("click", () => { currentFontSize = Math.min(34, currentFontSize+2); showingRules ? renderRules() : renderChapter(); });
+    document.getElementById("fontDecBtn")?.addEventListener("click", () => { currentFontSize = Math.max(12, currentFontSize-2); showingRules ? renderRules() : renderChapter(); });
+    document.getElementById("openMenuBtn")?.addEventListener("click", () => document.getElementById("royalToc").classList.add("open"));
+    document.getElementById("closeMenuBtn")?.addEventListener("click", () => document.getElementById("royalToc").classList.remove("open"));
+    document.getElementById("tabChaptersBtn")?.addEventListener("click", () => { if(showingRules) { showingRules = false; renderChapter(); updateTabs(); } });
+    document.getElementById("tabRulesBtn")?.addEventListener("click", () => { if(!showingRules) { showingRules = true; renderRules(); updateTabs(); } });
+
+    const saved = localStorage.getItem("savedChapter");
+    if(saved && !isNaN(parseInt(saved))) currentChapter = Math.min(parseInt(saved), FULL_BOOK_CHAPTERS.length-1);
+    buildTOC();
+    buildRulesList();
+    renderChapter();
+    updateProgress();
+</script>
+</body>
+</html>
