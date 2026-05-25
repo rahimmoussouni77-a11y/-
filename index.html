@@ -41,19 +41,77 @@
         }
 
         /* شاشة الترحيب */
-        .splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at 30% 20%, #0f0f12, #020202);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
-        }
+ /* تنسيق شاشة الترحيب بالكامل */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* خلفية سوداء عميقة مع تدرج ذهبي خفيف ودائري في المنتصف */
+    background: radial-gradient(circle at center, #2c2410 0%, #000000 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    /* تأثير انتقال سلس عند الإخفاء */
+    transition: opacity 1s ease-in-out, visibility 1s;
+}
+
+/* حاوية المحتوى لضمان التوسط */
+.splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* إضافة ظل خلفي ناعم للمحتوى بالكامل لإبرازه */
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
+}
+
+/* حاوية الصورة: لجعلها كبيرة وبإطار ذهبي رقيق */
+.splash-logo {
+    /* تكبير الحجم بشكل ملحوظ */
+    width: 250px;
+    height: 250px;
+
+    /* جعلها دائرية */
+    border-radius: 50%;
+
+    /* إطار ذهبي رقيق جداً وأنيق */
+    border: 2px solid #d4af37;
+
+    /* إضافة توهج ذهبي خفيف جداً حول الإطار */
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+
+    /* لقص الصورة لتناسب الشكل الدائري */
+    overflow: hidden;
+
+    /* مسافة بين الصورة والعنوان */
+    margin-bottom: 30px;
+
+    /* خلفية سوداء داخل الإطار لحين تحميل الصورة */
+    background-color: #000;
+}
+
+/* تنسيق الصورة نفسها داخل الحاوية */
+.splash-logo img {
+    width: 100%;
+    height: 100%;
+    /* لضمان ملء الصورة للدائرة بشكل مثالي دون تشويه */
+    object-fit: cover;
+}
+
+/* تنسيق العنوان: ذهبي متوهج */
+.splash-title {
+    font-family: 'Times New Roman', Times, serif; /* استخدام خط كلاسيكي فخم */
+    font-size: 3rem; /* حجم خط كبير */
+    font-weight: bold;
+    color: #d4af37; /* لون ذهبي */
+    text-align: center;
+    /* تأثير توهج للنص */
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
+    /* تباعد الحروف لإضافة فخامة */
+    letter-spacing: 2px;
+}
         .splash-content {
             text-align: center;
             animation: fadeInUp 0.8s ease-out;
@@ -615,6 +673,20 @@
             background: var(--gold-primary);
             border-radius: 10px;
         }
+        .splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff; /* أو لون خلفية موقعك */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease; /* لإضافة تأثير تلاشي ناعم */
+}
+
     </style>
 </head>
 <body>
@@ -622,10 +694,12 @@
 <div class="gold-particles" id="particles"></div>
 
 <!-- شاشة الترحيب -->
+<!-- شاشة الترحيب -->
+/* --- شاشة الترحيب الكاملة --- */
 <div class="splash-screen" id="splashScreen">
     <div class="splash-content">
         <div class="splash-logo">
-            <span>📚</span>
+            <img src="poo.jpg" alt="Logo" style="width: 150px; height: auto;">
         </div>
         <div class="splash-title">المكتبة الذهبية</div>
     </div>
@@ -1646,6 +1720,18 @@
     buildRulesList();
     renderChapter();
     updateProgress();
+    document.addEventListener("DOMContentLoaded", function() {
+    const splashScreen = document.getElementById('splashScreen');
+
+    // الانتظار لمدة 3 ثوانٍ ثم إخفاء الشاشة
+    setTimeout(() => {
+        splashScreen.style.opacity = '0'; // لجعلها تختفي بسلاسة
+        setTimeout(() => {
+            splashScreen.style.display = 'none';
+        }, 500); // إخفاء العنصر بعد انتهاء التلاشي
+    }, 3000);
+});
+
 </script>
 </body>
 </html>
